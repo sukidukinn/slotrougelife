@@ -1,0 +1,83 @@
+# ========== Unityプロジェクト向け .gitignore ==========
+
+# ビルド結果やキャッシュ
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+MemoryCaptures/
+
+# アセットの自動生成データ
+Assets/**/*.cs.meta
+Assets/**/*.unity.meta
+Assets/**/*.mat.meta
+Assets/**/*.anim.meta
+
+# Unity Cloud Diagnostics
+sysinfo.txt
+
+# ログ・クラッシュレポート
+*.log
+
+# Visual Studio / JetBrains Rider関連
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+
+# OS固有ファイル
+.DS_Store
+Thumbs.db
+
+# Unityプラグインキャッシュやパッケージ管理
+obj/
+*.apk
+*.aab
+*.xcodeproj
+*.xcworkspace
+*.xcuserstate
+*.xcuserdatad
+*.xcsettings
+
+# Unity Collaborate
+.collabignore
+
+# User-specific settings
+*.prefs
+*.csproj.user
+
+# Rider のユーザー設定
+.idea/
+
+# Mac Unity crash reports
+/Reports/
+
+# VS Code Debugging
+.vscode/
+
+# プライベート情報・APIキー（自動生成して .env などで管理する場合）
+.env
+*.secret
+
+# Player / Build 完成バイナリ
+*.exe
+*.app
+*.dll
+*.so
+*.dylib
+*.zip
+
+# Test / Temporary
+*.unitypackage
+Tests/Generated/
+
+# ========== end ==========
+
