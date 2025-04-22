@@ -19,6 +19,10 @@ public class DungeonSceneManager : MonoBehaviour
 
     private DungeonDeck deck;
 
+    [Header("獲得カード表示エリア")]
+    public Transform stackArea;             // Horizontal Layout Groupなど
+    public GameObject stackCardPrefab;      // CardButtonUIプレハブ
+    private List<CardBase> acquiredCards = new();
     private void Start()
     {
         drawButton.onClick.AddListener(ShowNextDraw);
@@ -36,17 +40,22 @@ public class DungeonSceneManager : MonoBehaviour
         ShowNextDraw();
     }
 
-    void ShowNextDraw()
+void ShowNextDraw()
     {
         var drawn = deck.Draw(3);
+        if (drawn.Count == 0)
+        {
+            Debug.Log("山札が空です");
+            return;
+        }
 
         for (int i = 0; i < cardButtons.Length; i++)
         {
             if (i < drawn.Count)
             {
                 var card = drawn[i];
-                int index = i; // ローカルキャプチャ
-                cardButtons[i].SetCard(card, () => OnCardSelected(index, card));
+                int index = i;
+                cardButtons[i].SetCard(card, () => OnCardSelected(card));
                 cardButtons[i].gameObject.SetActive(true);
             }
             else
@@ -56,24 +65,42 @@ public class DungeonSceneManager : MonoBehaviour
         }
     }
 
-    void OnCardSelected(int index, CardBase card)
+    void OnCardSelected(CardBase selected)
     {
-        string[] positions = { "左", "中央", "右" };
-        string msg = $"{positions[index]}カード選択（{card.name}）";
-        messageText.text = msg;
+        Debug.Log($"選択：{selected.name}");
 
-        // 必要に応じて報酬処理や遷移もここに追加
+        // スタックに追加してUI表示
+        acquiredCards.Add(selected);
+        ShowStackCard(selected);
+
+        // ボスなら終了
+        if (selected.type == "boss")
+        {
+            GameManager.Instance.SharedGameState.SetReward(acquiredCards, "ボス撃破！報酬獲得！");
+            ReturnToTitle();
+            return;
+        }
+
+        // 次のドロー
+        ShowNextDraw();
     }
-
-    void TriggerClear()
-    {
-        GameManager.Instance.SharedGameState.SetReward(new List<CardBase>(), "テスト報酬");
-        SceneManager.LoadScene("TitleScene");
-    }
-
     void ReturnToTitle()
     {
         SceneManager.LoadScene("TitleScene");
+    }
+    void ShowStackCard(CardBase card)
+    {
+        var obj = Instantiate(stackCardPrefab, stackArea);
+        var ui = obj.GetComponent<CardButtonUI>();
+        if (ui != null)
+        {
+            ui.SetCard(card, null); // 選択処理なし
+        }
+    }
+    void TriggerClear()
+    {
+        GameManager.Instance.SharedGameState.SetReward(new List<CardBase>(), "テスト報酬");
+            ReturnToTitle();
     }
 
     private DungeonDeck CreateDummyDeck()
@@ -81,27 +108,135 @@ public class DungeonSceneManager : MonoBehaviour
         var deck = new DungeonDeck();
         deck.Initialize(System.DateTime.Now.Millisecond);
 
-        for (int i = 0; i < 10; i++)
+        // ① カード一覧を配列で定義（最初がボス）
+        CardBase[] dummyCards = new CardBase[]
         {
-            var dummy = new CardBase
+            new CardBase
             {
-                id = $"TEST_{i}",
-                name = $"仮カード{i + 1}",
-                description = $"これは仮のカードです{i + 1}",
-                type = "buff"
-            };
-            deck.AddCard(dummy);
-        }
-
-        var boss = new CardBase
-        {
-            id = "BOSS",
-            name = "仮ボスカード",
-            description = "これはボスです",
-            type = "enemy"
+                id = "boss_1",
+                name = "仮ボスカード",
+                description = "これはボスです",
+                type = "boss",
+                cardImage = "Images/monster4",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/monster4"
+            },
+            new CardBase
+            {
+                id = "Enemy_1",
+                name = "ヒュドラ",
+                description = "これは仮のカードです1",
+                type = "enemy",
+                cardImage = "Images/monster1",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background1",
+                detailImage = "Images/monster1"
+            },
+            new CardBase
+            {
+                id = "Enemy_2",
+                name = "ドラゴン",
+                description = "これは仮のカードです2",
+                type = "enemy",
+                cardImage = "Images/monster2",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background1",
+                detailImage = "Images/monster2"
+            },
+            new CardBase
+            {
+                id = "Enemy_3",
+                name = "リヴァイアサン",
+                description = "これは仮のカードです3",
+                type = "enemy",
+                cardImage = "Images/monster3",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background1",
+                detailImage = "Images/monster3"
+            },
+            new CardBase
+            {
+                id = "Item_1",
+                name = "マッチョ",
+                description = "これは仮のカードです3",
+                type = "buff",
+                cardImage = "Images/eventItem1",
+                cardFlameImage = "Images/card_flame2",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/eventItem1"
+            },
+            new CardBase
+            {
+                id = "Item_2",
+                name = "オーラ爆発",
+                description = "これは仮のカードです3",
+                type = "buff",
+                cardImage = "Images/eventItem2",
+                cardFlameImage = "Images/card_flame2",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/eventItem2"
+            },
+            new CardBase
+            {
+                id = "Item_3",
+                name = "赤オーラ",
+                description = "これは仮のカードです3",
+                type = "buff",
+                cardImage = "Images/eventItem3",
+                cardFlameImage = "Images/card_flame2",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/eventItem3"
+            },
+            new CardBase
+            {
+                id = "Item_4",
+                name = "赤ポーション",
+                description = "これは仮のカードです3",
+                type = "buff",
+                cardImage = "Images/eventItem4",
+                cardFlameImage = "Images/card_flame2",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/eventItem4"
+            },
+            new CardBase
+            {
+                id = "Item_5",
+                name = "緑ポーション",
+                description = "これは仮のカードです3",
+                type = "buff",
+                cardImage = "Images/eventItem5",
+                cardFlameImage = "Images/card_flame2",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/eventItem5"
+            },
+            new CardBase
+            {
+                id = "Item_6",
+                name = "毒ポーション",
+                description = "これは仮のカードです3",
+                type = "buff",
+                cardImage = "Images/eventItem6",
+                cardFlameImage = "Images/card_flame2",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/eventItem6"
+            }
         };
 
-        deck.SetBossCard(boss);
+        // ② ボスカード（先頭）
+        deck.SetBossCard(dummyCards[0]);
+
+        // ③ 通常カード（2番目以降）
+        for (int i = 1; i < dummyCards.Length; i++)
+        {
+            deck.AddCard(dummyCards[i]);
+        }
+        // ③ 通常カード（2番目以降）
+        for (int i = 1; i < dummyCards.Length; i++)
+        {
+            deck.AddCard(dummyCards[i]);
+        }
+
         return deck;
     }
 }

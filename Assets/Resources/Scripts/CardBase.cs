@@ -9,8 +9,13 @@ public class CardBase
     public string name;
     public string description;
     public string type;
-    public string iconPath;
-    public Sprite icon;
+    // CardButtonUIのUI要素名と一致させた画像パス
+    public string cardImage = "Images/monster1";
+    public string cardFlameImage = "Images/card_flame1";
+    public string backgroundImage = "Images/background1";
+    public string detailImage = "Images/monster1";
+
+    public Sprite icon; // 実行時キャッシュ用途（任意）
     public string sePath;
     public AudioClip seClip;
 
@@ -35,7 +40,6 @@ public class CardBase
 
     public void LoadAssets()
     {
-        icon = Resources.Load<Sprite>(iconPath);
         seClip = Resources.Load<AudioClip>(sePath);
     }
 }

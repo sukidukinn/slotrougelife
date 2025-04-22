@@ -53,19 +53,32 @@ public class CardButtonUI : MonoBehaviour
 
         nameText.text = card.name;
         descText.text = card.description;
-        cardImage.sprite = card.icon;
+
+        cardImage.sprite = LoadSprite(card.cardImage);
+        cardFlameImage.sprite = LoadSprite(card.cardFlameImage);
+        backgroundImage.sprite = LoadSprite(card.backgroundImage);
 
         selectButton.onClick.RemoveAllListeners();
         selectButton.onClick.AddListener(() => onSelect?.Invoke());
     }
+    private Sprite LoadSprite(string resourcePath)
+    {
+        if (string.IsNullOrEmpty(resourcePath)) return null;
 
+        var sprite = Resources.Load<Sprite>(resourcePath);
+        if (sprite == null)
+        {
+            Debug.LogWarning($"画像が見つかりません: {resourcePath}");
+        }
+        return sprite;
+    }
     void ShowDetailModal()
     {
         if (detailModal != null)
         {
             detailTitleText.text = cardData != null ? cardData.name : "--";
             detailDescText.text = cardData != null ? cardData.description : "カードが設定されていません";
-            detailImage.sprite = cardData != null ? cardData.icon : null;
+            detailImage.sprite = cardData != null ? LoadSprite(cardData.detailImage) : null;
 
             detailModal.SetActive(true);
         }
