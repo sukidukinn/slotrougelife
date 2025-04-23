@@ -11,7 +11,10 @@ public class CardBase
     public string description;
     public string type;
     public int duplicatePoint; //重複代替ポイント
-    
+
+    public List<string> selectableOptions = new(); // ユーザーが選べるオプション（例: 安定型, SP型など）
+    public string selectedOption = "";             // 実際に選択されたオプション
+
     // CardButtonUIのUI要素名と一致させた画像パス
     public string cardImage = "Images/monster1";
     public string cardFlameImage = "Images/card_flame1";

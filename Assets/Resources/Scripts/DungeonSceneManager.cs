@@ -59,7 +59,7 @@ void ShowNextDraw()
             {
                 var card = drawn[i];
                 int index = i;
-                cardButtons[i].SetCard(card, () => OnCardSelected(card));
+                cardButtons[i].SetCard(card, OnCardSelected );
                 cardButtons[i].gameObject.SetActive(true);
             }
             else
@@ -68,10 +68,9 @@ void ShowNextDraw()
             }
         }
     }
-
     void OnCardSelected(CardBase selected)
     {
-        Debug.Log($"選択：{selected.name}");
+        Debug.Log($"選択：{selected.name} "+selected.selectedOption );
 
         // スタックに追加してUI表示
         acquiredCards.Add(selected);
@@ -152,12 +151,84 @@ void ShowNextDraw()
             {
                 id = "add_bell_symbol",
                 name = "ベル図柄追加",
-                description = "リールにチェリー追加します",
+                description = "リールにベルを等間隔に追加します",
                 type = "symbol",
                 cardImage = "Images/slotsymbol1:slotsymbol1_2",
                 cardFlameImage = "Images/card_flame1",
                 backgroundImage = "Images/background2",
                 detailImage = "Images/slotsymbol1:slotsymbol1_2"
+            },  
+            new CardBase
+            {
+                id = "add_bell_flag",
+                name = "ベル成立役",
+                description = "ベルの成立役を取得・強化します",
+                type = "flag",
+                cardImage = "Images/slotflag1:slotflag1_0",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotflag1:slotflag1_0",
+                selectableOptions = new List<string> { "安定型", "払出型", "SP強化型"}
+            },  
+            new CardBase
+            {
+                id = "add_replay_flag",
+                name = "リプレイ成立役",
+                description = "リプレイの成立役を取得・強化します",
+                type = "flag",
+                cardImage = "Images/slotflag1:slotflag1_2",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotflag1:slotflag1_2",
+                selectableOptions = new List<string> { "SP強化型" }
+            }, 
+            new CardBase
+            {
+                id = "add_cherry_flag",
+                name = "チェリー成立役",
+                description = "チェリーの成立役を取得・強化します",
+                type = "flag",
+                cardImage = "Images/slotflag1:slotflag1_1",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotflag1:slotflag1_1",
+                selectableOptions = new List<string> { "SP強化型", "払出型" }
+            }, 
+            new CardBase
+            {
+                id = "add_suika_flag",
+                name = "スイカ成立役",
+                description = "スイカの成立役を取得・強化します",
+                type = "flag",
+                cardImage = "Images/slotflag1:slotflag1_3",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotflag1:slotflag1_3",
+                selectableOptions = new List<string> { "SP強化型", "払出型" }
+            }, 
+            new CardBase
+            {
+                id = "add_big_flag",
+                name = "ビッグボーナス成立役",
+                description = "ビッグボーナスの成立役を取得・強化します",
+                type = "flag",
+                cardImage = "Images/slotflag1:slotflag1_4",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotflag1:slotflag1_4",
+                selectableOptions = new List<string> { "回数強化型", "安定型" }
+            }, 
+            new CardBase
+            {
+                id = "add_reg_flag",
+                name = "レギュラーボーナス成立役",
+                description = "レギュラーボーナスの成立役を取得・強化します",
+                type = "flag",
+                cardImage = "Images/slotflag1:slotflag1_5",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotflag1:slotflag1_5",
+                selectableOptions = new List<string> { "安定型" }
             }, 
             new CardBase
             {
