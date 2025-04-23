@@ -54,9 +54,12 @@ public class CardButtonUI : MonoBehaviour
         nameText.text = card.name;
         descText.text = card.description;
 
-        cardImage.sprite = LoadSprite(card.cardImage);
-        cardFlameImage.sprite = LoadSprite(card.cardFlameImage);
-        backgroundImage.sprite = LoadSprite(card.backgroundImage);
+        //cardImage.sprite = LoadSprite(card.cardImage);
+        cardImage.sprite = CardBase.LoadSpriteByPath(card.cardImage);
+        //cardFlameImage.sprite = LoadSprite(card.cardFlameImage);
+        cardFlameImage.sprite = CardBase.LoadSpriteByPath(card.cardFlameImage);
+        //backgroundImage.sprite = LoadSprite(card.backgroundImage);
+        backgroundImage.sprite = CardBase.LoadSpriteByPath(card.backgroundImage);
 
         selectButton.onClick.RemoveAllListeners();
         selectButton.onClick.AddListener(() => onSelect?.Invoke());

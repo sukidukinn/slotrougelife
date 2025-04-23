@@ -73,7 +73,7 @@ public class TitleSceneManager : MonoBehaviour
         };
         deck.SetBossCard(bossCard);
 
-        GameManager.Instance.SharedGameState.SetDeck(deck);
+        //GameManager.Instance.SharedGameState.SetDeck(deck);
         SceneManager.LoadScene("DungeonScene");
     }
 }

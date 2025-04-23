@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [Serializable]
 public class CardBase
@@ -9,6 +10,8 @@ public class CardBase
     public string name;
     public string description;
     public string type;
+    public int duplicatePoint; //重複代替ポイント
+    
     // CardButtonUIのUI要素名と一致させた画像パス
     public string cardImage = "Images/monster1";
     public string cardFlameImage = "Images/card_flame1";
@@ -41,5 +44,27 @@ public class CardBase
     public void LoadAssets()
     {
         seClip = Resources.Load<AudioClip>(sePath);
+    }
+
+    public static Sprite LoadSpriteByPath(string pathWithOptionalSpriteName)
+    {
+        if (string.IsNullOrEmpty(pathWithOptionalSpriteName)) return null;
+
+        // 例: "Images/slotSymbol:cherry"
+        var parts = pathWithOptionalSpriteName.Split(':');
+
+        if (parts.Length == 2)
+        {
+            var sheetPath = parts[0];
+            var spriteName = parts[1];
+
+            var sprites = Resources.LoadAll<Sprite>(sheetPath);
+            return sprites.FirstOrDefault(s => s.name == spriteName);
+        }
+        else
+        {
+            // 単体スプライト（画像全体）
+            return Resources.Load<Sprite>(pathWithOptionalSpriteName);
+        }
     }
 }

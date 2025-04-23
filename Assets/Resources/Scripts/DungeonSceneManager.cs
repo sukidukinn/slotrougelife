@@ -10,6 +10,8 @@ public class DungeonSceneManager : MonoBehaviour
     public Button drawButton;
     public Button clearButton;
     public Button returnButton;
+    public Button soundDisplayButton;
+    public Button soundPlayTestButton;
 
     [Header("カード表示UI")]
     public CardButtonUI[] cardButtons; // 左:0, 中央:1, 右:2
@@ -28,6 +30,8 @@ public class DungeonSceneManager : MonoBehaviour
         drawButton.onClick.AddListener(ShowNextDraw);
         clearButton.onClick.AddListener(TriggerClear);
         returnButton.onClick.AddListener(ReturnToTitle);
+        soundDisplayButton.onClick.AddListener(() => GameManager.Instance.ToggleSoundPanel());
+        soundPlayTestButton.onClick.AddListener(() => GameManager.Instance.BGM1ButtonEvent());  
 
         deck = GameManager.Instance.SharedGameState.GetDeck();
 
@@ -122,6 +126,39 @@ void ShowNextDraw()
                 backgroundImage = "Images/background2",
                 detailImage = "Images/monster4"
             },
+            new CardBase
+            {
+                id = "add_seven_symbol",
+                name = "７ボーナス図柄追加",
+                description = "これはボスです",
+                type = "symbol",
+                cardImage = "Images/slotsymbol1:slotsymbol1_0",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotsymbol1:slotsymbol1_0"
+            },
+            new CardBase
+            {
+                id = "add_cherry_symbol",
+                name = "チェリー図柄追加",
+                description = "リールにチェリー追加します",
+                type = "symbol",
+                cardImage = "Images/slotsymbol1:slotsymbol1_1",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotsymbol1:slotsymbol1_1"
+            },  
+            new CardBase
+            {
+                id = "add_bell_symbol",
+                name = "ベル図柄追加",
+                description = "リールにチェリー追加します",
+                type = "symbol",
+                cardImage = "Images/slotsymbol1:slotsymbol1_2",
+                cardFlameImage = "Images/card_flame1",
+                backgroundImage = "Images/background2",
+                detailImage = "Images/slotsymbol1:slotsymbol1_2"
+            }, 
             new CardBase
             {
                 id = "Enemy_1",
